@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Revisão </title>
+		
+	<style>
+	#c {background-color: black;}
+	</style>	
+
+	<script>
+
+		const RAIO = 50
+		const MAX = 500
+		const VEL = 1
+
+		var bolinhas = new Array(MAX)
+
+		for (var k=0; k<MAX; k++) {
+			bolinhas[k] = new Array(0, 0, sortearCor(), sortear(1), sortear(1))
+		}
+
+		//bolinhas[0] = new Array(0,0,'blue' ,  -2 , 2)
+		//bolinhas[1] = new Array(0,0,'red'  ,  2 , -2)
+		//bolinhas[2] = new Array(0,0,'green',  -2 , -2)
+
+		setInterval(desenhar, VEL)
+
+		function sortear(limite) {
+			return Math.random() * limite
+		}
+
+
+		function sortearCor() {
+
+			var r = parseInt(sortear(255))
+			var g = parseInt(sortear(255))
+			var b = parseInt(sortear(255))
+
+			return "rgb(" + r + "," + g + "," + b + ")"
+		}
+
+		function limpar(c) {
+
+			c.width = c.width
+			c.height = c.height
+
+		}
+
+		function bolinha(x, y, raio, cor, ctx) {
+
+			ctx.beginPath()
+			ctx.fillStyle = cor
+			ctx.arc(x, y, raio, 0*Math.PI, 2*Math.PI)
+			ctx.fill()
+
+		}
+
+		//var px = 50
+		//var py = 300
+		//var incX = 10
+		//var incY = 10
+
+		function desenhar() {
+
+			var desenho = document.getElementById("c")
+			var contexto = desenho.getContext("2d")
+
+			// se fizer comentário no limpar ele deixa rastro
+			//limpar(desenho)
+
+			for(var b=0; b<MAX; b++) {
+
+				var x 	 = bolinhas[b][0]
+				var y 	 = bolinhas[b][1]
+				var cor  = bolinhas[b][2]
+				var incX = bolinhas[b][3]
+				var incY = bolinhas[b][4]
+
+				bolinha(x, y, RAIO, sortearCor(), contexto)
+
+				x = x + incX
+				y = y + incY
+
+				if (x < 0 || x > desenho.width)
+					incX = incX * -1
+
+				if (y < 0 || y > desenho.height)
+					incY = incY * -1
+
+				bolinhas[b][0] = x
+				bolinhas[b][1] = y
+				bolinhas[b][3] = incX
+				bolinhas[b][4] = incY
+			}
+
+     	}
+
+
+	</script>
+		
+	</head>	
+
+
+	<body>
+		<canvas id="c" width="1500" height="765" style="border: 1px dotted"> </canvas>
+
+
+	</body>	
+
+
+
+</html>
+
